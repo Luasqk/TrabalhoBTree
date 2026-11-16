@@ -36,6 +36,34 @@ public class BTree {
         }
     }
 
+    // Remove uma chave da Árvore B (pode reduzir a altura da árvore)
+    public void remove(int key) {
+        if (root == null) {
+            System.out.println("A árvore está vazia.");
+            return;
+        }
+
+        // Chama a remoção recursiva a partir da raiz
+        root.remove(key);
+
+        // Se a raiz ficou com 0 chaves após uma fusão (merge), ajustamos o ponteiro da raiz
+        if (root.n == 0) {
+            if (root.leaf) {
+                root = null; // Árvore ficou totalmente vazia
+            } else {
+                root = root.children[0]; // O único filho fundido torna-se a nova raiz (altura diminui)
+            }
+        }
+    }
+
+    public void printStructure() {
+        if (root == null) {
+            System.out.println("  (Árvore vazia)");
+        } else {
+            root.printHierarchy(0);
+        }
+    }
+
     public void printBTree() {
         if (root != null)
             root.printInOrder();
